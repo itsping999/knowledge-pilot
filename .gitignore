@@ -1,14 +1,12 @@
 .DS_Store
 .env
-.venv/
-__pycache__/
-*.py[cod]
-.pytest_cache/
-.ruff_cache/
-.mypy_cache/
+target/
 dist/
 build/
-*.egg-info/
-data/processed/
-data/index/
+data/*.db
+data/*.db-shm
+data/*.db-wal
+data/files/
+data/indexes/
+data/logs/
 
