@@ -86,8 +86,9 @@ fn extract_relevant_excerpts(
     let mut order = 0usize;
 
     for item in context {
-        for unit in text_units(&item.chunk.text) {
-            for sentence in split_sentences(&unit) {
+        let units = text_units(&item.chunk.text);
+        for (unit_idx, unit) in units.iter().enumerate() {
+            for sentence in split_sentences(unit) {
                 if sentence.len() < 10 || is_noise_line(&sentence) {
                     order += 1;
                     continue;
@@ -95,10 +96,29 @@ fn extract_relevant_excerpts(
 
                 let score = excerpt_score(&sentence, &terms);
                 if score > 0 || terms.is_empty() {
+                    let is_list_header = sentence.ends_with('：') || sentence.ends_with(':');
+                    let excerpt = if is_list_header {
+                        let mut expanded = sentence.clone();
+                        if unit.len() > sentence.len() {
+                            // Same unit has more content after the header
+                            expanded = unit.clone();
+                        } else if unit_idx + 1 < units.len() {
+                            // Header is alone in its unit — look ahead to
+                            // the next unit for the actual list items.
+                            let next = units[unit_idx + 1].trim();
+                            if !next.is_empty() && !next.starts_with('#') {
+                                expanded.push('\n');
+                                expanded.push_str(next);
+                            }
+                        }
+                        trim_sentence(&expanded, 400)
+                    } else {
+                        trim_sentence(&sentence, 220)
+                    };
                     scored.push(ScoredExcerpt {
                         score,
                         order,
-                        excerpt: trim_sentence(&sentence, 220),
+                        excerpt,
                     });
                 }
                 order += 1;
@@ -148,7 +168,11 @@ fn is_noise_line(line: &str) -> bool {
     {
         return true;
     }
-    if trimmed.len() < 20 && trimmed.chars().next().is_some_and(|c| c.is_ascii_digit()) {
+    if trimmed.len() < 12
+        && trimmed.chars().next().is_some_and(|c| c.is_ascii_digit())
+        && !trimmed.contains('：')
+        && !trimmed.contains(':')
+    {
         return true;
     }
     false
@@ -232,6 +256,36 @@ fn split_sentences(text: &str) -> Vec<String> {
         .collect()
 }
 
+fn compact_cjk_spaces(text: &str) -> String {
+    let chars: Vec<char> = text.chars().collect();
+    let mut result = String::with_capacity(text.len());
+    for i in 0..chars.len() {
+        if chars[i] == ' ' && i > 0 && i + 1 < chars.len() {
+            let prev = chars[i - 1];
+            let next = chars[i + 1];
+            if prev.is_ascii_digit() && is_cjk(next) {
+                // Only collapse when the digit is NOT part of a mixed
+                // ASCII term like "P95", "RTO4".  Check up to 3 chars
+                // before the digit for an ASCII letter.
+                let has_adjacent_letter = (i >= 2 && chars[i - 2].is_ascii_alphabetic())
+                    || (i >= 3
+                        && chars[i - 2].is_ascii_digit()
+                        && chars[i - 3].is_ascii_alphabetic());
+                if !has_adjacent_letter {
+                    continue;
+                }
+            }
+            if is_cjk(prev) && next.is_ascii_digit() {
+                // Collapse CJK -> digit space only when digit is not
+                // followed by more digits then an ASCII letter (e.g. "第 3G 频段").
+                continue;
+            }
+        }
+        result.push(chars[i]);
+    }
+    result
+}
+
 fn trim_sentence(sentence: &str, max_len: usize) -> String {
     // Normalize newlines to spaces for clean display
     let normalized: String = sentence
@@ -243,6 +297,7 @@ fn trim_sentence(sentence: &str, max_len: usize) -> String {
         .collect::<Vec<&str>>()
         .join(" ");
     let cleaned = strip_section_prefix(&normalized);
+    let cleaned = compact_cjk_spaces(&cleaned);
     if cleaned.len() <= max_len {
         return cleaned;
     }

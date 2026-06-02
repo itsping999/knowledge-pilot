@@ -167,7 +167,7 @@ fn title_boost(question: &str, title: &str, section: &str) -> f32 {
         boost += 0.3;
     }
 
-    // Bonus for exact question keywords in title (4+ char CJK sequences)
+    // Bonus for exact question keywords in title (3+ char CJK sequences)
     let question_keywords = extract_cjk_keywords(&question_compact);
     let title_keyword_hits = question_keywords
         .iter()
@@ -189,7 +189,7 @@ fn extract_cjk_keywords(text: &str) -> Vec<String> {
         if ('\u{4e00}'..='\u{9fff}').contains(&ch) {
             cjk_buf.push(ch);
         } else {
-            if cjk_buf.len() >= 4 {
+            if cjk_buf.len() >= 3 {
                 let keyword: String = cjk_buf.iter().collect();
                 keywords.push(keyword);
             }
@@ -197,7 +197,7 @@ fn extract_cjk_keywords(text: &str) -> Vec<String> {
         }
     }
 
-    if cjk_buf.len() >= 4 {
+    if cjk_buf.len() >= 3 {
         let keyword: String = cjk_buf.iter().collect();
         keywords.push(keyword);
     }
@@ -274,6 +274,22 @@ fn question_type_match_bonus(question: &str, text: &str) -> f32 {
         ("知识库", 0.2),
         ("准入指标", 0.3),
         ("发布流程", 0.3),
+        ("响应时间", 0.3),
+        ("事件升级", 0.3),
+        ("事后回顾", 0.3),
+        ("数据校验", 0.3),
+        ("会计核算", 0.3),
+        ("敏感个人信息", 0.3),
+        ("合法性基础", 0.3),
+        ("必填字段", 0.3),
+        ("采集方式", 0.3),
+        ("RTO", 0.3),
+        ("RPO", 0.3),
+        ("灾备", 0.3),
+        ("恢复组织", 0.3),
+        ("设备准入", 0.3),
+        ("网络分区", 0.3),
+        ("Purdue", 0.3),
     ] {
         if q.contains(pattern) && t.contains(pattern) {
             bonus += weight;
@@ -327,6 +343,11 @@ fn answer_anchor_phrases(question: &str) -> Vec<String> {
         ("应开展哪些", "应开展以下"),
         ("基于哪些核心原则", "基于以下核心原则"),
         ("基于哪些原则", "基于以下原则"),
+        ("采用哪些方式", "采用以下方式"),
+        ("分为哪些类别", "分为以下类别"),
+        ("满足哪些条件", "满足以下条件"),
+        ("遵循哪些原则", "遵循以下原则"),
+        ("应进行哪些校验", "应进行以下校验"),
     ] {
         if let Some(subject) = question.strip_suffix(question_suffix)
             && subject.chars().count() >= 3

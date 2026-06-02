@@ -47,7 +47,8 @@
     "expected_source": "eval/documents/enterprise-rag-operations.md",
     "expected_answer_contains": [
       "门禁"
-    ]
+    ],
+    "allow_additional_sources": true
   },
   {
     "question": "低置信答案应该如何处理？",
@@ -312,7 +313,8 @@
       "安全级别",
       "使用场景",
       "风险控制措施"
-    ]
+    ],
+    "allow_additional_sources": true
   },
   {
     "question": "企业数据资源入表前需要判断哪些事项？",
@@ -639,7 +641,8 @@
       "低置信兜底测试",
       "审计日志测试",
       "回滚演练"
-    ]
+    ],
+    "allow_additional_sources": true
   },
   {
     "question": "知识库发布准入指标包括哪些？",
@@ -971,7 +974,8 @@
       "安全补丁",
       "终端防护软件",
       "磁盘加密"
-    ]
+    ],
+    "allow_additional_sources": true
   },
   {
     "question": "容器镜像构建应遵循哪些安全规范？",
@@ -1333,6 +1337,169 @@
     "expected_answer_contains": [
       "漏洞",
       "扫描"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "P1事件的响应时间要求是多少？",
+    "expected_source": "eval/documents/enterprise-itsm-incident-management.md",
+    "expected_answer_contains": [
+      "15分钟"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "事件升级分为哪两类？",
+    "expected_source": "eval/documents/enterprise-itsm-incident-management.md",
+    "expected_answer_contains": [
+      "技术升级",
+      "管理升级"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "P1和P2事件解决后应在多少个工作日内组织事后回顾？",
+    "expected_source": "eval/documents/enterprise-itsm-incident-management.md",
+    "expected_answer_contains": [
+      "5个工作日"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "财务数据按敏感程度分为哪些级别？",
+    "expected_source": "eval/documents/enterprise-financial-data-governance.md",
+    "expected_answer_contains": [
+      "核心级",
+      "重要级",
+      "一般级"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "财务数据采集后应进行哪些校验？",
+    "expected_source": "eval/documents/enterprise-financial-data-governance.md",
+    "expected_answer_contains": [
+      "借贷平衡",
+      "科目合法性"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "会计核算应遵循哪些原则？",
+    "expected_source": "eval/documents/enterprise-financial-data-governance.md",
+    "expected_answer_contains": [
+      "权责发生制",
+      "配比原则"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "人力资源数据中哪些属于敏感个人信息？",
+    "expected_source": "eval/documents/enterprise-hr-data-privacy.md",
+    "expected_answer_contains": [
+      "生物识别",
+      "健康信息",
+      "金融信息"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "人力资源数据收集的合法性基础有哪些？",
+    "expected_source": "eval/documents/enterprise-hr-data-privacy.md",
+    "expected_answer_contains": [
+      "劳动合同履行",
+      "法定义务",
+      "合法利益"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "人力资源数据收集应遵循什么原则？",
+    "expected_source": "eval/documents/enterprise-hr-data-privacy.md",
+    "expected_answer_contains": [
+      "最小必要"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "日志分析平台采用什么架构设计？",
+    "expected_source": "eval/documents/enterprise-log-analysis-platform.md",
+    "expected_answer_contains": [
+      "采集层",
+      "传输层",
+      "存储层"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "日志标准化包含哪些必填字段？",
+    "expected_source": "eval/documents/enterprise-log-analysis-platform.md",
+    "expected_answer_contains": [
+      "timestamp",
+      "source",
+      "level"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "日志采集应采用哪些方式？",
+    "expected_source": "eval/documents/enterprise-log-analysis-platform.md",
+    "expected_answer_contains": [
+      "Agent",
+      "Syslog"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "A级系统的RTO和RPO要求是多少？",
+    "expected_source": "eval/documents/enterprise-disaster-recovery-plan.md",
+    "expected_answer_contains": [
+      "四小时",
+      "一小时"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "灾难恢复组织由哪些团队组成？",
+    "expected_source": "eval/documents/enterprise-disaster-recovery-plan.md",
+    "expected_answer_contains": [
+      "灾难恢复指挥中心",
+      "技术恢复团队"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "同城灾备中心与主数据中心的距离要求是多少？",
+    "expected_source": "eval/documents/enterprise-disaster-recovery-plan.md",
+    "expected_answer_contains": [
+      "50公里"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "物联网网络按照什么模型进行分区？",
+    "expected_source": "eval/documents/enterprise-iot-security-operations.md",
+    "expected_answer_contains": [
+      "Purdue"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "物联网设备按功能分为哪些类别？",
+    "expected_source": "eval/documents/enterprise-iot-security-operations.md",
+    "expected_answer_contains": [
+      "工业控制设备",
+      "传感设备"
+    ],
+    "allow_additional_sources": true
+  },
+  {
+    "question": "物联网设备接入网络应满足哪些准入条件？",
+    "expected_source": "eval/documents/enterprise-iot-security-operations.md",
+    "expected_answer_contains": [
+      "设备认证",
+      "固件验证",
+      "安全配置"
     ],
     "allow_additional_sources": true
   }
